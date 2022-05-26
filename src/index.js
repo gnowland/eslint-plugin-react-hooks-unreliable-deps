@@ -7,13 +7,17 @@
 
 'use strict';
 
+import ReferenceDeps from './ReferenceDeps';
 
 export const configs = {
   recommended: {
+    plugins: ['react-hooks-unreliable-deps'],
     rules: {
+      'react-hooks-unreliable-deps/reference-deps': 'warn',
     },
   },
 };
 
 export const rules = {
+  'reference-deps': ReferenceDeps,
 };

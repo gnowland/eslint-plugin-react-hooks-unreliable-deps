@@ -1,21 +1,17 @@
-# `eslint-plugin-react-hooks`
+# `eslint-plugin-react-hooks-unreliable-deps`
 
-This ESLint plugin enforces the [Rules of Hooks](https://reactjs.org/docs/hooks-rules.html).
-
-It is a part of the [Hooks API](https://reactjs.org/docs/hooks-intro.html) for React.
+This is a companion ESLint plugin for [`eslint-plugin-react-hooks`](https://github.com/facebook/react/tree/main/packages/eslint-plugin-react-hooks) to warn about potential issues arising from reference equality in [React Hooks API](https://reactjs.org/docs/hooks-intro.html) dependency arrays.
 
 ## Installation
-
-**Note: If you're using Create React App, please use `react-scripts` >= 3 instead of adding it directly.**
 
 Assuming you already have ESLint installed, run:
 
 ```sh
 # npm
-npm install eslint-plugin-react-hooks --save-dev
+npm install eslint-plugin-react-hooks-unreliable-deps --save-dev
 
 # yarn
-yarn add eslint-plugin-react-hooks --dev
+yarn add eslint-plugin-react-hooks-unreliable-deps --dev
 ```
 
 Then extend the recommended eslint config:
@@ -24,7 +20,7 @@ Then extend the recommended eslint config:
 {
   "extends": [
     // ...
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks-unreliable-deps/recommended"
   ]
 }
 ```
@@ -37,12 +33,11 @@ If you want more fine-grained configuration, you can instead add a snippet like 
 {
   "plugins": [
     // ...
-    "react-hooks"
+    "react-hooks-unreliable-deps"
   ],
   "rules": {
     // ...
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks-unreliable-deps/reference-deps": "warn",
   }
 }
 ```
@@ -50,14 +45,14 @@ If you want more fine-grained configuration, you can instead add a snippet like 
 
 ## Advanced Configuration
 
-`exhaustive-deps` can be configured to validate dependencies of custom Hooks with the `additionalHooks` option.
+`reference-deps` can be configured to validate dependencies of custom Hooks with the `additionalHooks` option.
 This option accepts a regex to match the names of custom Hooks that have dependencies.
 
 ```js
 {
   "rules": {
     // ...
-    "react-hooks/exhaustive-deps": ["warn", {
+    "react-hooks-unreliable-deps/reference-deps": ["warn", {
       "additionalHooks": "(useMyCustomHook|useMyOtherCustomHook)"
     }]
   }
@@ -66,10 +61,10 @@ This option accepts a regex to match the names of custom Hooks that have depende
 
 We suggest to use this option **very sparingly, if at all**. Generally saying, we recommend most custom Hooks to not use the dependencies argument, and instead provide a higher-level API that is more focused around a specific use case.
 
-## Valid and Invalid Examples
+## Explanation
 
-Please refer to the [Rules of Hooks](https://reactjs.org/docs/hooks-rules.html) documentation and the [Hooks FAQ](https://reactjs.org/docs/hooks-faq.html#what-exactly-do-the-lint-rules-enforce) to learn more about this rule.
+Please refer to this wonderful treatise [Object & Array Dependencies in the React useEffect Hook](https://www.benmvp.com/blog/object-array-dependencies-react-useEffect-hook/) to learn more about the impetus behind this rule.
 
 ## License
 
-MIT
+This project was forked from [facebook/react/.../eslint-plugin-react-hooks](https://github.com/facebook/react/tree/main/packages/eslint-plugin-react-hooks) and is inherently licensed under MIT.
