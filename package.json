@@ -29,7 +29,8 @@
   },
   "homepage": "https://github.com/gnowland/eslint-plugin-react-hooks-unreliable-deps",
   "peerDependencies": {
-    "eslint": "^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0"
+    "eslint": "^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0",
+    "eslint-plugin-react-hooks": "^3.0.0 || ^4.0.0"
   },
   "scripts": {
     "simlink": "ln -hfs ../ node_modules/${npm_package_name}",
