@@ -72,3 +72,7 @@ Please refer to this wonderful treatise [Object & Array Dependencies in the Reac
 ## License
 
 This project was forked from [facebook/react/.../eslint-plugin-react-hooks](https://github.com/facebook/react/tree/main/packages/eslint-plugin-react-hooks) and is inherently licensed under MIT.
+
+## Development
+
+Clone the repository and run `npm install` to initialize. Run `npm run build` to create the build packages.
