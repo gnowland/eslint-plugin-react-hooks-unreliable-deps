@@ -1,4 +1,5 @@
 # `eslint-plugin-react-hooks-unreliable-deps`
+[![npm](https://img.shields.io/npm/v/eslint-plugin-react-hooks-unreliable-deps.svg?style=flat-square)](https://www.npmjs.com/package/eslint-plugin-react-hooks-unreliable-deps)
 
 This is a companion ESLint plugin for [`eslint-plugin-react-hooks`](https://github.com/facebook/react/tree/main/packages/eslint-plugin-react-hooks) to warn about potential issues arising from reference equality in [React Hooks API](https://reactjs.org/docs/hooks-intro.html) dependency arrays.
 
@@ -37,7 +38,9 @@ If you want more fine-grained configuration, you can instead add a snippet like 
   ],
   "rules": {
     // ...
-    "react-hooks-unreliable-deps/reference-deps": "warn",
+    "react-hooks-unreliable-deps/reference-deps": ["warn", {
+      "avoidObjects": true
+    }]
   }
 }
 ```
@@ -53,7 +56,8 @@ This option accepts a regex to match the names of custom Hooks that have depende
   "rules": {
     // ...
     "react-hooks-unreliable-deps/reference-deps": ["warn", {
-      "additionalHooks": "(useMyCustomHook|useMyOtherCustomHook)"
+      "additionalHooks": "(useMyCustomHook|useMyOtherCustomHook)",
+      "avoidObjects": true
     }]
   }
 }

@@ -28,6 +28,9 @@ export default {
           additionalHooks: {
             type: 'string',
           },
+          avoidObjects: {
+            type: 'boolean',
+          },
         },
       },
     ],
@@ -41,8 +44,16 @@ export default {
         ? new RegExp(context.options[0].additionalHooks)
         : undefined;
 
+    const avoidObjects =
+      context.options &&
+      context.options[0] &&
+      context.options[0].avoidObjects
+        ? true
+        : false;
+
     const options = {
       additionalHooks,
+      avoidObjects,
     };
 
     function reportProblem(problem) {
@@ -68,7 +79,7 @@ export default {
         reportProblem({
           node: declaredDependenciesNode,
           message:
-            `React Hook ${context.getSource(reactiveHook)} was passed a ` +
+            `React Hook ${reactiveHookName} was passed a ` +
             'dependency list that is not an array literal. This means we ' +
             "can't statically verify whether you've passed the correct " +
             'dependencies.',
@@ -79,9 +90,25 @@ export default {
           if (declaredDependencyNode === null) {
             return;
           }
+            if (declaredDependencyNode.type === 'Identifier' && options && options.avoidObjects) {
+            // If we see an object then add a special warning if avoidObjects option is true.
             reportProblem({
               node: declaredDependencyNode,
               message:
+                `React Hook ${reactiveHookName} has an object in its ` +
+                `dependency array: '${declaredDependencyNode.name}'. ` +
+                // `Non-primitive dependencies can result in triggering the ${reactiveHookName} unnecessarily ` +
+                "Non-primitive dependencies can result in triggering " +
+                "the callback unnecessarily due to referential equality " + // via Object.is()
+                "comparison. Consider destructuring the object outside " +
+                `the ${reactiveHookName} call or using property accessors ` +
+                "to refer to primitive values within the dependency array.",
+                // `destructure the object outside of the ${reactiveHookName} call and ` +
+                // "refer to those specific values inside ${ context.getSource(reactiveHook) }.`;
+                //
+                // "equality. Either use a property accessor to extract the primitive value " +
+                // `or convert the ${context.getSource(reactiveHook)} to a ${context.getSource(reactiveHook).replace('use', 'useDeepCompare')}.`,
+                // ^!! Don't recommend useDeepCompare per Dan Abramov: https://twitter.com/dan_abramov/status/1104414469629898754 !!
             });
             return;
           }
@@ -105,9 +132,8 @@ export default {
       const isEffect = /Effect($|[^a-z])/g.test(reactiveHookName);
 
       // Check the declared dependencies for this reactive hook. If there is no
-      // second argument then the reactive callback will re-run on every render.
-      // So no need to check for dependency inclusion.
-      if (!declaredDependenciesNode && !isEffect) {
+      // second argument then there are no declared dependencies.
+      if (!declaredDependenciesNode) return;
 
       switch (callback.type) {
         case 'FunctionExpression':

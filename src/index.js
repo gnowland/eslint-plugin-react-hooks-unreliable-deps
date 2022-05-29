@@ -13,7 +13,9 @@ export const configs = {
   recommended: {
     plugins: ['react-hooks-unreliable-deps'],
     rules: {
-      'react-hooks-unreliable-deps/reference-deps': 'warn',
+      'react-hooks-unreliable-deps/reference-deps': ['warn', {
+        'avoidObjects': true
+      }]
     },
   },
 };
