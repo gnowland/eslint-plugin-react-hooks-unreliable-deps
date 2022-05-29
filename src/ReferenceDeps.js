@@ -90,8 +90,8 @@ export default {
           if (declaredDependencyNode === null) {
             return;
           }
-            if (declaredDependencyNode.type === 'Identifier' && options && options.avoidObjects) {
-            // If we see an object then add a special warning if avoidObjects option is true.
+          // If we see an object then add a special warning if avoidObjects option is true.
+          if (declaredDependencyNode.type === 'Identifier' && options && options.avoidObjects) {
             reportProblem({
               node: declaredDependencyNode,
               message:
